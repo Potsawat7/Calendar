@@ -11,13 +11,13 @@ public class ControllerTest {
 
     Events events;
     Appointment appointment;
-   
+
     @Test
     public void testCalendar(){
 
         events = new Events();
 
-        appointment = new Appointment("ประชุมสโม",1, Month.JANUARY,2017,"1","00","AM","smo sci");
+        appointment = new Appointment("ประชุมสโม","1 Month.JANUARY 2017 1:00 AM","smo sci");
         events.addApp(appointment);
         assertEquals(events.event.size(),1,0);
 

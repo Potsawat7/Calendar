@@ -4,19 +4,28 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import models.Appointment;
 import models.Events;
 
+import java.io.IOException;
+import java.sql.*;
 import java.time.LocalDate;
-
+import java.util.ArrayList;
 
 
 public class Controller {
 
-
+    Appointment appointment;
+    ArrayList<Appointment> arrayList;
     Events events;
     public Controller(){
+        arrayList = new ArrayList();
         events = new Events();
     }
 
@@ -45,17 +54,50 @@ public class Controller {
     public TextField locat;
     @FXML
     public TextField titlefield;
-
+    @FXML
+    private Button edit;
+    @FXML
+    public TextField editIDField;
 
 
     @FXML
     public void addApp(ActionEvent e){
+
         creatEvent();
-        textfield.setText(events.showEvent());
+      //  textfield.setText(events.showEvent());
+        showAppoint();
     }
     @FXML
     public void clearAction(ActionEvent event){
         clear();
+    }
+    @FXML
+    public void editButton(ActionEvent event) {
+        showEditScene();
+
+    }
+
+    private void showEditScene() {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/editPanel.fxml"));
+
+        try {
+            stage.initOwner(edit.getScene().getWindow());
+            stage.setScene(new Scene((Parent) loader.load()));
+            stage.setTitle("Appointment list");
+
+            EditController editController = loader.getController();
+            editController.id = Integer.parseInt(editIDField.getText());
+            editController.setEditByID();
+
+            stage.showAndWait();
+            showAppoint();
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void clear() {
@@ -64,12 +106,30 @@ public class Controller {
         textfield.clear();
         events.event.clear();
         events.show="";
+        try {
+            // setup
+            Class.forName("org.sqlite.JDBC");
+            String dbURL = "jdbc:sqlite:appointment.db";
+            Connection conn = DriverManager.getConnection(dbURL);
+            if (conn != null) {
+                String query = "DELETE from Appointments";
+                Statement statement = conn.createStatement();
+                statement.executeUpdate(query);
+
+                conn.close();
+            }
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML
     private void initialize(){
         add.setOnAction(this::addApp);
         clr.setOnAction(this::clearAction);
+        edit.setOnAction(this::editButton);
         hrDrop.setValue("1");
         hrDrop.setItems(hrList);
         minDrop.setValue("00");
@@ -77,17 +137,86 @@ public class Controller {
         zoneTime.setValue("AM");
         zoneTime.setItems(zoneList);
     }
-
-    private void creatEvent() {
-
-        Appointment appointmentObj = new Appointment(titlefield.getText(),calendar.getValue().getDayOfMonth(),calendar.getValue().getMonth(),calendar.getValue().getYear(),
-                hrDrop.getSelectionModel().getSelectedItem().toString(),minDrop.getSelectionModel().getSelectedItem().toString(),zoneTime.getSelectionModel().getSelectedItem().toString(),
-                locat.getText());
-      //  System.out.println(appointmentObj);
-        events.addApp(appointmentObj);
+    private String getDate()   {
+        String datTime="";
+        String Date = calendar.getValue().getDayOfMonth()+" "+calendar.getValue().getMonth()+" "+calendar.getValue().getYear()+" ";
+        String time = hrDrop.getSelectionModel().getSelectedItem().toString()+" : "+minDrop.getSelectionModel().getSelectedItem().toString()
+                +" "+zoneTime.getSelectionModel().getSelectedItem().toString();
+        datTime = Date+time;
+        return datTime;
     }
+    private void creatEvent() {
+        try {
+            // setup
+            Class.forName("org.sqlite.JDBC");
+            String dbURL = "jdbc:sqlite:appointment.db";
+            Connection conn = DriverManager.getConnection(dbURL);
+        int id = 1;
+            System.out.println(events.getIdFromSize());
+        Appointment appointmentObj = new Appointment(titlefield.getText(),getDate(), locat.getText());
+
+        events.addApp(appointmentObj);
 
 
+        if (conn != null) {
+
+//          set appoint into database
+
+            String query = "insert into Appointments(title,date,location) values (\'"+titlefield.getText()+"\',\'"+getDate()+"\',\'"+locat.getText()+"\')";
+//                PreparedStatement statement = conn.prepareStatement(query);
+                Statement statement = conn.createStatement();
+                statement.executeUpdate(query);
+
+                statement.close();
+
+            }
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+    public void showAppoint(){
+        try {
+            // setup
+            Class.forName("org.sqlite.JDBC");
+            String dbURL = "jdbc:sqlite:appointment.db";
+            Connection conn = DriverManager.getConnection(dbURL);
+            String show ="";
+            int i = 0;
+            if (conn != null) {
+                String query = "select * from Appointments";
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery(query);
+
+                while (resultSet.next()){
+
+                    String ti = resultSet.getString(2);
+                    String dat = resultSet.getString(3);
+                    String loc = resultSet.getString(4);
+                    String idToEdit = resultSet.getString(1);
+                    String s = "";
+
+                    s = (i+1)+".  " + "Title: " + ti + "\n"
+                            +"   " + "Date: " + dat + "\n"
+                            +"   " + "Location: "  + loc +"\n"
+                            +"   "+ "ID Event to edit: "+ idToEdit+"\n";
+                    show+=s;
+                    i = i + 1;
+                    textfield.setText(show);
+                    Appointment obj = new Appointment(ti,dat,loc);
+                    arrayList.add(obj);
+
+                }
+            events.event = arrayList;
+            }
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 
 
 
