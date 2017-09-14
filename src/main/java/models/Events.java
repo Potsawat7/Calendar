@@ -14,8 +14,8 @@ public class Events  {
     }
 
 
-    public int getIdFromSize(){
-        return event.size()+1;
-    }
+//    public int getIdFromSize(){
+//        return event.size()+1;
+//    }
 
 }

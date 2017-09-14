@@ -13,7 +13,7 @@ import models.Events;
 import java.sql.*;
 
 public class EditController {
-    Events events;
+
     @FXML
     private TextField editTitleField,editLocField;
     @FXML
@@ -21,7 +21,7 @@ public class EditController {
     @FXML
     private Label oldEventLabel;
     @FXML
-    public DatePicker editDateField ;
+    private DatePicker editDateField ;
     @FXML
     private ChoiceBox editHrDrop,editMnDrop,editMeridDrop;
 

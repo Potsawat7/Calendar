@@ -8,25 +8,31 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import models.Appointment;
 import models.Events;
 
 import java.io.IOException;
 import java.sql.*;
+import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.ArrayList;
 
 
 public class Controller {
 
-    Appointment appointment;
+
     ArrayList<Appointment> arrayList;
     Events events;
+//    LocalDate time;
+//    String title,location,hour,minute;
+//    int day,month,year,reptNum;
     public Controller(){
         arrayList = new ArrayList();
         events = new Events();
+
     }
 
     ObservableList<String> hrList = FXCollections.observableArrayList("1","2","3","4","5","6","7","8","9","10","11","12");
@@ -37,34 +43,81 @@ public class Controller {
     ObservableList<String> zoneList = FXCollections.observableArrayList("AM","PM");
 
     @FXML
-    public ChoiceBox hrDrop;
+    private ChoiceBox hrDrop;
     @FXML
-    public ChoiceBox minDrop;
+    private ChoiceBox minDrop;
     @FXML
-    public ChoiceBox zoneTime;
+    private ChoiceBox zoneTime;
     @FXML
     private Button add;
     @FXML
     private Button clr;
     @FXML
-    public DatePicker calendar;
+    private DatePicker calendar;
     @FXML
     private TextArea textfield;
     @FXML
-    public TextField locat;
+    private TextField locat;
     @FXML
-    public TextField titlefield;
+    private TextField titlefield;
     @FXML
     private Button edit;
     @FXML
-    public TextField editIDField;
+    private TextField editIDField,reptDayField;
+    @FXML
+    private RadioButton radioDay,radioMon,radioWeek;
 
 
     @FXML
     public void addApp(ActionEvent e){
+        LocalDate time  = calendar.getValue();
+        String title = titlefield.getText();
+        int day = time.getDayOfMonth();
+        int month = time.getMonthValue();
+        int year = time.getYear();
+        String hour = hrDrop.getSelectionModel().getSelectedItem().toString();
+        String minute = minDrop.getSelectionModel().getSelectedItem().toString();
+        String location = locat.getText();
+        int reptNum = Integer.parseInt(reptDayField.getText());
 
-        creatEvent();
-      //  textfield.setText(events.showEvent());
+        String str = getDate(day,month,year,hour,minute);
+        creatEvent(title,str,location);
+
+        if(!reptDayField.equals("")){
+            if(radioDay.isSelected()){
+                for (int i=1;i<=reptNum;i++){
+//                    System.out.println(time);
+//                    System.out.println(time.plusDays(reptNum));
+                    LocalDate plusDay =  time.plusDays(reptNum);
+                    day = plusDay.getDayOfMonth();
+                    month = plusDay.getMonthValue();
+                    year = plusDay.getYear();
+
+                    str = getDate(day,month,year,hour,minute);
+                    creatEvent(title,str,location);
+                }
+            }else if(radioMon.isSelected()){
+                for (int i=1;i<=reptNum;i++){
+
+                    LocalDate plusMon =  time.plusMonths(reptNum);
+                    day = plusMon.getDayOfMonth();
+                    month = plusMon.getMonthValue();
+                    year = plusMon.getYear();
+                    str = getDate(day,month,year,hour,minute);
+                    creatEvent(title,str,location);
+                }
+            }else if(radioWeek.isSelected()){
+                for (int i=1;i<=reptNum;i++){
+                    LocalDate plusWeek = time.plusWeeks(reptNum);
+                    day = plusWeek.getDayOfMonth();
+                    month = plusWeek.getMonthValue();
+                    year = plusWeek.getYear();
+                    str = getDate(day,month,year,hour,minute);
+                    creatEvent(title,str,location);
+                }
+            }
+
+        }
         showAppoint();
     }
     @FXML
@@ -76,11 +129,20 @@ public class Controller {
         showEditScene();
 
     }
+    private String getDate(int day,int month, int year,String hour ,String minute)   {
+
+        String datTime="";
+        String Date = day+"/"+month+"/"+year+" ";
+        String time = hour+" : "+minute
+                +" "+zoneTime.getSelectionModel().getSelectedItem().toString();
+        datTime = Date+time;
+        return datTime;
+    }
 
     private void showEditScene() {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/editPanel.fxml"));
-
+        if(editIDField.getText() != ""){
         try {
             stage.initOwner(edit.getScene().getWindow());
             stage.setScene(new Scene((Parent) loader.load()));
@@ -99,6 +161,8 @@ public class Controller {
             e.printStackTrace();
         }
     }
+    }
+
 
     private void clear() {
         titlefield.clear();
@@ -137,32 +201,27 @@ public class Controller {
         zoneTime.setValue("AM");
         zoneTime.setItems(zoneList);
     }
-    private String getDate()   {
-        String datTime="";
-        String Date = calendar.getValue().getDayOfMonth()+" "+calendar.getValue().getMonth()+" "+calendar.getValue().getYear()+" ";
-        String time = hrDrop.getSelectionModel().getSelectedItem().toString()+" : "+minDrop.getSelectionModel().getSelectedItem().toString()
-                +" "+zoneTime.getSelectionModel().getSelectedItem().toString();
-        datTime = Date+time;
-        return datTime;
-    }
-    private void creatEvent() {
+
+    private void creatEvent(String title,String date,String location) {
         try {
             // setup
+
             Class.forName("org.sqlite.JDBC");
             String dbURL = "jdbc:sqlite:appointment.db";
             Connection conn = DriverManager.getConnection(dbURL);
-        int id = 1;
-            System.out.println(events.getIdFromSize());
-        Appointment appointmentObj = new Appointment(titlefield.getText(),getDate(), locat.getText());
 
-        events.addApp(appointmentObj);
+//            System.out.println(getDate());
+            Appointment appointmentObj = new Appointment(title,date, location);
+
+            events.addApp(appointmentObj);
 
 
-        if (conn != null) {
+            if (conn != null) {
 
 //          set appoint into database
+                System.out.println(date);
 
-            String query = "insert into Appointments(title,date,location) values (\'"+titlefield.getText()+"\',\'"+getDate()+"\',\'"+locat.getText()+"\')";
+                String query = "insert into Appointments(title,date,location) values (\'"+title+"\',\'"+date+"\',\'"+location+"\')";
 //                PreparedStatement statement = conn.prepareStatement(query);
                 Statement statement = conn.createStatement();
                 statement.executeUpdate(query);
@@ -174,9 +233,14 @@ public class Controller {
             ex.printStackTrace();
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
     }
+
+
+
     public void showAppoint(){
         try {
             // setup
@@ -206,6 +270,7 @@ public class Controller {
                     i = i + 1;
                     textfield.setText(show);
                     Appointment obj = new Appointment(ti,dat,loc);
+
                     arrayList.add(obj);
 
                 }
@@ -215,6 +280,8 @@ public class Controller {
             ex.printStackTrace();
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 

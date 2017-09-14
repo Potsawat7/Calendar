@@ -3,6 +3,7 @@ import models.Appointment;
 import models.Events;
 import org.junit.Test;
 
+import java.text.ParseException;
 import java.time.Month;
 
 import static org.junit.Assert.*;
@@ -13,7 +14,7 @@ public class ControllerTest {
     Appointment appointment;
 
     @Test
-    public void testCalendar(){
+    public void testCalendar() throws ParseException {
 
         events = new Events();
 
