@@ -14,25 +14,25 @@ import models.Events;
 
 import java.io.IOException;
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
+import java.text.SimpleDateFormat;
+import java.time.*;
 import java.util.ArrayList;
-
+import databaseManager.sqliteDB;
 
 public class Controller {
 
+    sqliteDB sqlite;
 
-    ArrayList<Appointment> arrayList;
     Events events;
 //    LocalDate time;
 //    String title,location,hour,minute;
 //    int day,month,year,reptNum;
     public Controller(){
-        arrayList = new ArrayList();
-        events = new Events();
 
+        events = new Events();
+        sqlite = new sqliteDB();
     }
 
     ObservableList<String> hrList = FXCollections.observableArrayList("1","2","3","4","5","6","7","8","9","10","11","12");
@@ -53,7 +53,7 @@ public class Controller {
     @FXML
     private Button clr;
     @FXML
-    private DatePicker calendar;
+    private DatePicker calendar, showDatePicker;
     @FXML
     private TextArea textfield;
     @FXML
@@ -67,6 +67,7 @@ public class Controller {
     @FXML
     private RadioButton radioDay,radioMon,radioWeek;
 
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     @FXML
     public void addApp(ActionEvent e){
@@ -78,45 +79,44 @@ public class Controller {
         String hour = hrDrop.getSelectionModel().getSelectedItem().toString();
         String minute = minDrop.getSelectionModel().getSelectedItem().toString();
         String location = locat.getText();
-        int reptNum = Integer.parseInt(reptDayField.getText());
 
-        String str = getDate(day,month,year,hour,minute);
-        creatEvent(title,str,location);
-
-        if(!reptDayField.equals("")){
+        if((reptDayField.getText().isEmpty())==false){
+            int reptNum = Integer.parseInt(reptDayField.getText());
             if(radioDay.isSelected()){
-                for (int i=1;i<=reptNum;i++){
-//                    System.out.println(time);
-//                    System.out.println(time.plusDays(reptNum));
-                    LocalDate plusDay =  time.plusDays(reptNum);
+                for (int i=1;i<=30;i++){
+
+                    LocalDate plusDay =  time.plusDays(reptNum*i);
                     day = plusDay.getDayOfMonth();
                     month = plusDay.getMonthValue();
                     year = plusDay.getYear();
 
-                    str = getDate(day,month,year,hour,minute);
+                    String str = getDate(day,month,year,hour,minute);
                     creatEvent(title,str,location);
                 }
             }else if(radioMon.isSelected()){
-                for (int i=1;i<=reptNum;i++){
+                for (int i=1;i<=12;i++){
 
-                    LocalDate plusMon =  time.plusMonths(reptNum);
+                    LocalDate plusMon =  time.plusMonths(reptNum*i);
                     day = plusMon.getDayOfMonth();
                     month = plusMon.getMonthValue();
                     year = plusMon.getYear();
-                    str = getDate(day,month,year,hour,minute);
+                    String str = getDate(day,month,year,hour,minute);
                     creatEvent(title,str,location);
                 }
             }else if(radioWeek.isSelected()){
-                for (int i=1;i<=reptNum;i++){
+                for (int i=1;i<=52;i++){
                     LocalDate plusWeek = time.plusWeeks(reptNum);
                     day = plusWeek.getDayOfMonth();
                     month = plusWeek.getMonthValue();
                     year = plusWeek.getYear();
-                    str = getDate(day,month,year,hour,minute);
+                    String str = getDate(day,month,year,hour,minute);
                     creatEvent(title,str,location);
                 }
             }
 
+        }else {
+            String str = getDate(day,month,year,hour,minute);
+            creatEvent(title,str,location);
         }
         showAppoint();
     }
@@ -170,23 +170,15 @@ public class Controller {
         textfield.clear();
         events.event.clear();
         events.show="";
-        try {
-            // setup
-            Class.forName("org.sqlite.JDBC");
-            String dbURL = "jdbc:sqlite:appointment.db";
-            Connection conn = DriverManager.getConnection(dbURL);
-            if (conn != null) {
-                String query = "DELETE from Appointments";
-                Statement statement = conn.createStatement();
-                statement.executeUpdate(query);
 
-                conn.close();
-            }
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+//            // setup
+//            Class.forName("org.sqlite.JDBC");
+//            String dbURL = "jdbc:sqlite:appointment.db";
+//            Connection conn = DriverManager.getConnection(dbURL);
+        sqlite.estDatabase();
+        sqlite.deleteFromTable("DELETE from Appointments");
+
+
     }
 
     @FXML
@@ -200,40 +192,51 @@ public class Controller {
         minDrop.setItems(minList);
         zoneTime.setValue("AM");
         zoneTime.setItems(zoneList);
+
     }
 
     private void creatEvent(String title,String date,String location) {
-        try {
-            // setup
-
-            Class.forName("org.sqlite.JDBC");
-            String dbURL = "jdbc:sqlite:appointment.db";
-            Connection conn = DriverManager.getConnection(dbURL);
-
-//            System.out.println(getDate());
-            Appointment appointmentObj = new Appointment(title,date, location);
-
-            events.addApp(appointmentObj);
-
-
-            if (conn != null) {
-
-//          set appoint into database
-                System.out.println(date);
-
+//        try {
+//            // setup
+//
+//            Class.forName("org.sqlite.JDBC");
+//            String dbURL = "jdbc:sqlite:appointment.db";
+//            Connection conn = DriverManager.getConnection(dbURL);
+//
+////            System.out.println(getDate());
+//            Appointment appointmentObj = new Appointment(title,date, location);
+//
+//            events.addApp(appointmentObj);
+//
+//
+//            if (conn != null) {
+//
+////          set appoint into database
+//                System.out.println(date);
+//
                 String query = "insert into Appointments(title,date,location) values (\'"+title+"\',\'"+date+"\',\'"+location+"\')";
-//                PreparedStatement statement = conn.prepareStatement(query);
-                Statement statement = conn.createStatement();
-                statement.executeUpdate(query);
+////                PreparedStatement statement = conn.prepareStatement(query);
+//                Statement statement = conn.createStatement();
+//                statement.executeUpdate(query);
+//
+//                statement.close();
+//
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            ex.printStackTrace();
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+        try {
+            sqlite.estDatabase();
+            Appointment appointmentObj = new Appointment(title, date, location);
+            events.addApp(appointmentObj);
+            sqlite.addToTable(query);
 
-                statement.close();
-
-            }
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (ParseException e) {
+        }
+       catch (ParseException e) {
             e.printStackTrace();
         }
 
@@ -242,17 +245,94 @@ public class Controller {
 
 
     public void showAppoint(){
+        ArrayList<Appointment> arrayList = new ArrayList<>();
+        sqlite.estDatabase();
+        String show ="";
+        int i = 0;
+        String query = "select * from Appointments";
+        ResultSet resultSet = sqlite.selectFromDatabase(query);
+        try {
+            while (resultSet.next()){
+                String ti = resultSet.getString(2);
+                String dat = resultSet.getString(3);
+                String loc = resultSet.getString(4);
+                String idToEdit = resultSet.getString(1);
+                String s = "";
+
+                s = (i+1)+".  " + "Title: " + ti + "\n"
+                            +"   " + "Date: " + dat + "\n"
+                            +"   " + "Location: "  + loc +"\n"
+                            +"   "+ "ID Event to edit: "+ idToEdit+"\n";
+                show+=s;
+                i = i + 1;
+                textfield.setText(show);
+                Appointment obj = new Appointment(ti,dat,loc);
+
+                arrayList.add(obj);
+            }
+            events.event = arrayList;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //        try {
+//            // setup
+//            Class.forName("org.sqlite.JDBC");
+//            String dbURL = "jdbc:sqlite:appointment.db";
+//            Connection conn = DriverManager.getConnection(dbURL);
+//
+//            if (conn != null) {
+//                String query = "select * from Appointments";
+//                Statement statement = conn.createStatement();
+//                ResultSet resultSet = statement.executeQuery(query);
+//
+//                while (resultSet.next()){
+//
+//                    String ti = resultSet.getString(2);
+//                    String dat = resultSet.getString(3);
+//                    String loc = resultSet.getString(4);
+//                    String idToEdit = resultSet.getString(1);
+//                    String s = "";
+//
+//                    s = (i+1)+".  " + "Title: " + ti + "\n"
+//                            +"   " + "Date: " + dat + "\n"
+//                            +"   " + "Location: "  + loc +"\n"
+//                            +"   "+ "ID Event to edit: "+ idToEdit+"\n";
+//                    show+=s;
+//                    i = i + 1;
+//                    textfield.setText(show);
+//                    Appointment obj = new Appointment(ti,dat,loc);
+//
+//                    arrayList.add(obj);
+//
+//                }
+//            events.event = arrayList;
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            ex.printStackTrace();
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+
+    public void showByDateHandle(ActionEvent event) {
+//        showAppoint();
+
+        LocalDate timeShow = showDatePicker.getValue();
+        int day = timeShow.getDayOfMonth();
+        int month = timeShow.getMonthValue();
+        int year = timeShow.getYear();
         try {
             // setup
-            Class.forName("org.sqlite.JDBC");
-            String dbURL = "jdbc:sqlite:appointment.db";
-            Connection conn = DriverManager.getConnection(dbURL);
+            sqlite.estDatabase();
             String show ="";
             int i = 0;
-            if (conn != null) {
-                String query = "select * from Appointments";
-                Statement statement = conn.createStatement();
-                ResultSet resultSet = statement.executeQuery(query);
+            ResultSet resultSet = sqlite.selectFromDatabase("select * from Appointments");
 
                 while (resultSet.next()){
 
@@ -262,29 +342,30 @@ public class Controller {
                     String idToEdit = resultSet.getString(1);
                     String s = "";
 
-                    s = (i+1)+".  " + "Title: " + ti + "\n"
-                            +"   " + "Date: " + dat + "\n"
-                            +"   " + "Location: "  + loc +"\n"
-                            +"   "+ "ID Event to edit: "+ idToEdit+"\n";
-                    show+=s;
-                    i = i + 1;
-                    textfield.setText(show);
-                    Appointment obj = new Appointment(ti,dat,loc);
+                    this.dateFormat.parse(dat);
 
-                    arrayList.add(obj);
+                    LocalDate localDate = this.dateFormat.parse(dat).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    int d = localDate.getDayOfMonth();
+                    int m = localDate.getMonthValue();
+                    int y = localDate.getYear();
 
+                    if((day == d )&& (month==m )&&(year == y)) {
+
+                        s = (i + 1) + ".  " + "Title: " + ti + "\n"
+                                + "   " + "Date: " + dat + "\n"
+                                + "   " + "Location: " + loc + "\n"
+                                + "   " + "ID Event to edit: " + idToEdit + "\n";
+                        show += s;
+                        i = i + 1;
+                        textfield.setText(show);
+                    }
                 }
-            events.event = arrayList;
-            }
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (SQLException ex) {
+
+
+        }  catch (SQLException ex) {
             ex.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
-
-
-
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -7,137 +8,169 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Controller">
-  <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="271.0" minWidth="10.0" prefWidth="52.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="529.0" minWidth="10.0" prefWidth="518.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="336.0" minWidth="10.0" prefWidth="30.0" />
-  </columnConstraints>
-  <rowConstraints>
-      <RowConstraints maxHeight="51.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="82.0" minHeight="1.0" prefHeight="19.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="179.0" minHeight="0.0" prefHeight="97.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="217.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="197.0" minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="252.0" minHeight="10.0" prefHeight="142.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="283.0" minHeight="10.0" prefHeight="257.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="184.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="496.0" text="EVENTS" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="6">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="217.0" minWidth="10.0" prefWidth="156.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="335.0" minWidth="10.0" prefWidth="57.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="0.0" prefWidth="0.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="10.0" prefWidth="48.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="7.0" prefWidth="7.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="0.0" prefWidth="0.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="10.0" prefWidth="85.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="10.0" prefWidth="166.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="19.0" minHeight="10.0" prefHeight="17.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="34.0" minHeight="0.0" prefHeight="7.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="34.0" minHeight="7.0" prefHeight="27.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Button fx:id="add" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addApp" text="ADD" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button fx:id="clr" mnemonicParsing="false" onAction="#clearAction" prefHeight="25.0" prefWidth="78.0" text="Remove All" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-            <Button fx:id="edit" mnemonicParsing="false" onAction="#editButton" prefHeight="10.0" prefWidth="42.0" text="EDIT" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="164.0" text="please choose event to edit" GridPane.rowIndex="3" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="41.0" text="by ID" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="editIDField" prefHeight="25.0" prefWidth="65.0" promptText="ID" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <!--<Button fx:id="edit" mnemonicParsing="false" onAction="#editButton" prefHeight="25.0" prefWidth="66.0" text="EDIT" GridPane.columnIndex="3" GridPane.rowIndex="1" />-->
-         </children>
-      </GridPane>
-      <GridPane prefHeight="47.0" prefWidth="370.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="154.0" minWidth="10.0" prefWidth="70.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="418.0" minWidth="10.0" prefWidth="333.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="0.0" prefWidth="107.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <TextField fx:id="titlefield" prefHeight="25.0" prefWidth="260.0" promptText="add title here" GridPane.columnIndex="1">
-               <font>
-                  <Font name="System Italic" size="12.0" />
-               </font></TextField>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="52.0" text="Title" textAlignment="CENTER" />
-         </children>
-      </GridPane>
-      <GridPane prefHeight="35.0" prefWidth="511.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="112.0" minWidth="10.0" prefWidth="81.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="152.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="20.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="2.0" prefWidth="70.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="93.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="130.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="36.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <DatePicker fx:id="calendar" prefHeight="25.0" prefWidth="198.0" GridPane.columnIndex="1" />
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="57.0" text="Date" textAlignment="CENTER" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="89.0" text="Repeat Every" GridPane.rowIndex="1" />
-            <TextField fx:id="reptDayField" prefHeight="25.0" prefWidth="139.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <RadioButton fx:id="radioDay" mnemonicParsing="false" prefHeight="17.0" prefWidth="133.0" text="DAY" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <RadioButton fx:id="radioMon" mnemonicParsing="false" text="MONTH" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <RadioButton fx:id="radioWeek" mnemonicParsing="false" text="WEEKS" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-         </children>
-      </GridPane>
-      <TextArea fx:id="textfield" prefHeight="133.0" prefWidth="516.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <GridPane prefHeight="52.0" prefWidth="265.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="113.0" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="3.0" prefWidth="38.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="0.0" prefWidth="29.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="2.0" prefWidth="41.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="0.0" prefWidth="28.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="0.0" prefWidth="46.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="10.0" prefWidth="58.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="179.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="55.0" text="Time" GridPane.rowIndex="1" />
-            <ChoiceBox id="hr" fx:id="hrDrop" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ChoiceBox id="min" fx:id="minDrop" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <ChoiceBox fx:id="zoneTime" prefWidth="150.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="30.0" text="Hr" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="41.0" text="Min" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="70.0" text="AM / PM" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-         </children>
-      </GridPane>
-      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="5">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="10.0" prefWidth="78.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="434.0" minWidth="10.0" prefWidth="367.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="434.0" minWidth="10.0" prefWidth="76.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <TextField fx:id="locat" promptText="add location here" GridPane.columnIndex="1" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="71.0" text="Location" />
-         </children>
-      </GridPane>
-   </children>
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Controller">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="271.0" minWidth="10.0" prefWidth="52.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="529.0" minWidth="10.0" prefWidth="518.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="336.0" minWidth="10.0" prefWidth="30.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="51.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="82.0" minHeight="1.0" prefHeight="19.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="179.0" minHeight="0.0" prefHeight="97.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="217.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="197.0" minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="252.0" minHeight="10.0" prefHeight="142.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="283.0" minHeight="10.0" prefHeight="257.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="184.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="496.0" text="EVENTS" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="217.0" minWidth="10.0" prefWidth="156.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="335.0" minWidth="10.0" prefWidth="138.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="287.0" minWidth="10.0" prefWidth="99.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="10.0" prefWidth="116.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="19.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="34.0" minHeight="0.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="34.0" minHeight="7.0" prefHeight="27.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="34.0" minHeight="7.0" prefHeight="16.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="34.0" minHeight="7.0" prefHeight="16.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="38.0" minHeight="7.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Button fx:id="add" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addApp" prefHeight="25.0" prefWidth="86.0" text="ADD" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets right="50.0" />
+                    </GridPane.margin></Button>
+                <Button fx:id="clr" mnemonicParsing="false" onAction="#clearAction" prefHeight="25.0" prefWidth="101.0" text="Remove All" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Button fx:id="edit" mnemonicParsing="false" onAction="#editButton" prefHeight="25.0" prefWidth="55.0" text="EDIT" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="120.0" text="please choose event " GridPane.rowIndex="6" />
+                <Label prefHeight="16.0" prefWidth="120.0" text="EDIT &amp; DELETE EVENT" textOverrun="CLIP" underline="true" GridPane.rowIndex="6">
+                    <GridPane.margin>
+                        <Insets bottom="25.0" left="10.0" />
+                    </GridPane.margin>
+                    <effect>
+                        <Blend />
+                    </effect>
+                    <font>
+                        <Font name="System Italic" size="11.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="138.0" text="Show event from date " GridPane.rowIndex="5" />
+                <DatePicker fx:id="showDatePicker" prefHeight="25.0" prefWidth="143.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Button fx:id="showBtn" mnemonicParsing="false" onAction="#showByDateHandle" prefHeight="25.0" prefWidth="48.0" text="Show" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="6">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <TextField fx:id="editIDField" prefHeight="25.0" prefWidth="57.0" promptText="ID" />
+                  <Button fx:id="delByIdBtn" mnemonicParsing="false" text="DELETE" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets left="15.0" />
+                     </GridPane.margin>
+                  </Button>
+                    </children>
+                </GridPane>
+                <!--<Button fx:id="edit" mnemonicParsing="false" onAction="#editButton" prefHeight="25.0" prefWidth="66.0" text="EDIT" GridPane.columnIndex="3" GridPane.rowIndex="1" />-->
+            </children>
+        </GridPane>
+        <GridPane prefHeight="47.0" prefWidth="370.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="154.0" minWidth="10.0" prefWidth="70.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="418.0" minWidth="10.0" prefWidth="333.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="0.0" prefWidth="107.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <TextField fx:id="titlefield" prefHeight="25.0" prefWidth="260.0" promptText="add title here" GridPane.columnIndex="1">
+                    <font>
+                        <Font name="System Italic" size="12.0" />
+                    </font></TextField>
+                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="52.0" text="Title" textAlignment="CENTER" />
+            </children>
+        </GridPane>
+        <GridPane prefHeight="35.0" prefWidth="511.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="112.0" minWidth="10.0" prefWidth="81.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="152.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="20.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="2.0" prefWidth="70.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="93.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="130.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="36.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <DatePicker fx:id="calendar" prefHeight="25.0" prefWidth="198.0" GridPane.columnIndex="1" />
+                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="57.0" text="Date" textAlignment="CENTER" />
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="89.0" text="Repeat Every" GridPane.rowIndex="1" />
+                <TextField fx:id="reptDayField" prefHeight="25.0" prefWidth="139.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <RadioButton fx:id="radioDay" mnemonicParsing="false" prefHeight="17.0" prefWidth="133.0" text="DAY" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <RadioButton fx:id="radioMon" mnemonicParsing="false" text="MONTH" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                <RadioButton fx:id="radioWeek" mnemonicParsing="false" text="WEEKS" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            </children>
+        </GridPane>
+        <TextArea fx:id="textfield" prefHeight="133.0" prefWidth="516.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+        <GridPane prefHeight="52.0" prefWidth="265.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="113.0" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="3.0" prefWidth="38.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="0.0" prefWidth="29.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="2.0" prefWidth="41.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="0.0" prefWidth="28.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="0.0" prefWidth="46.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="10.0" prefWidth="58.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="179.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="55.0" text="Time" GridPane.rowIndex="1" />
+                <ChoiceBox id="hr" fx:id="hrDrop" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <ChoiceBox id="min" fx:id="minDrop" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <ChoiceBox fx:id="zoneTime" prefWidth="150.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="30.0" text="Hr" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="41.0" text="Min" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="70.0" text="AM / PM" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+            </children>
+        </GridPane>
+        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="10.0" prefWidth="78.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="434.0" minWidth="10.0" prefWidth="367.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="434.0" minWidth="10.0" prefWidth="76.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <TextField fx:id="locat" promptText="add location here" GridPane.columnIndex="1" />
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="71.0" text="Location" />
+            </children>
+        </GridPane>
+    </children>
 </GridPane>
