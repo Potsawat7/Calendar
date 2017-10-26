@@ -2,7 +2,7 @@ package databaseManager;
 
 import java.sql.ResultSet;
 
-public interface databaseManager {
+public interface DatabaseManager {
      void addToTable(String q);
      void deleteFromTable(String q);
      void estDatabase();

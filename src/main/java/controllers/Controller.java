@@ -1,5 +1,7 @@
 package controllers;
 
+import databaseManager.DatabaseManager;
+import databaseManager.MySqlDB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,20 +21,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.ArrayList;
-import databaseManager.sqliteDB;
+import databaseManager.SqliteDB;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Controller {
 
-    sqliteDB sqlite;
+    DatabaseManager database;
 
     Events events;
-//    LocalDate time;
-//    String title,location,hour,minute;
-//    int day,month,year,reptNum;
+
     public Controller(){
 
         events = new Events();
-        sqlite = new sqliteDB();
+        ApplicationContext bf = new ClassPathXmlApplicationContext("spring.xml");
+        this.database = (DatabaseManager) bf.getBean("sqlite");
+//        databaseManager = new SqliteDB();
+//        databaseManager = new MySqlDB();
     }
 
     ObservableList<String> hrList = FXCollections.observableArrayList("1","2","3","4","5","6","7","8","9","10","11","12");
@@ -175,8 +180,8 @@ public class Controller {
 //            Class.forName("org.sqlite.JDBC");
 //            String dbURL = "jdbc:sqlite:appointment.db";
 //            Connection conn = DriverManager.getConnection(dbURL);
-        sqlite.estDatabase();
-        sqlite.deleteFromTable("DELETE from Appointments");
+        database.estDatabase();
+        database.deleteFromTable("DELETE from Appointments");
 
 
     }
@@ -196,44 +201,14 @@ public class Controller {
     }
 
     private void creatEvent(String title,String date,String location) {
-//        try {
-//            // setup
-//
-//            Class.forName("org.sqlite.JDBC");
-//            String dbURL = "jdbc:sqlite:appointment.db";
-//            Connection conn = DriverManager.getConnection(dbURL);
-//
-////            System.out.println(getDate());
-//            Appointment appointmentObj = new Appointment(title,date, location);
-//
-//            events.addApp(appointmentObj);
-//
-//
-//            if (conn != null) {
-//
-////          set appoint into database
-//                System.out.println(date);
-//
-                String query = "insert into Appointments(title,date,location) values (\'"+title+"\',\'"+date+"\',\'"+location+"\')";
-////                PreparedStatement statement = conn.prepareStatement(query);
-//                Statement statement = conn.createStatement();
-//                statement.executeUpdate(query);
-//
-//                statement.close();
-//
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            ex.printStackTrace();
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+
+        String query = "insert into Appointments(title,date,location) values (\'"+title+"\',\'"+date+"\',\'"+location+"\')";
+
         try {
-            sqlite.estDatabase();
+            database.estDatabase();
             Appointment appointmentObj = new Appointment(title, date, location);
             events.addApp(appointmentObj);
-            sqlite.addToTable(query);
+            database.addToTable(query);
 
         }
        catch (ParseException e) {
@@ -246,11 +221,11 @@ public class Controller {
 
     public void showAppoint(){
         ArrayList<Appointment> arrayList = new ArrayList<>();
-        sqlite.estDatabase();
+        database.estDatabase();
         String show ="";
         int i = 0;
         String query = "select * from Appointments";
-        ResultSet resultSet = sqlite.selectFromDatabase(query);
+        ResultSet resultSet = database.selectFromDatabase(query);
         try {
             while (resultSet.next()){
                 String ti = resultSet.getString(2);
@@ -277,46 +252,7 @@ public class Controller {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //        try {
-//            // setup
-//            Class.forName("org.sqlite.JDBC");
-//            String dbURL = "jdbc:sqlite:appointment.db";
-//            Connection conn = DriverManager.getConnection(dbURL);
-//
-//            if (conn != null) {
-//                String query = "select * from Appointments";
-//                Statement statement = conn.createStatement();
-//                ResultSet resultSet = statement.executeQuery(query);
-//
-//                while (resultSet.next()){
-//
-//                    String ti = resultSet.getString(2);
-//                    String dat = resultSet.getString(3);
-//                    String loc = resultSet.getString(4);
-//                    String idToEdit = resultSet.getString(1);
-//                    String s = "";
-//
-//                    s = (i+1)+".  " + "Title: " + ti + "\n"
-//                            +"   " + "Date: " + dat + "\n"
-//                            +"   " + "Location: "  + loc +"\n"
-//                            +"   "+ "ID Event to edit: "+ idToEdit+"\n";
-//                    show+=s;
-//                    i = i + 1;
-//                    textfield.setText(show);
-//                    Appointment obj = new Appointment(ti,dat,loc);
-//
-//                    arrayList.add(obj);
-//
-//                }
-//            events.event = arrayList;
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            ex.printStackTrace();
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+
     }
 
 
@@ -329,10 +265,10 @@ public class Controller {
         int year = timeShow.getYear();
         try {
             // setup
-            sqlite.estDatabase();
+            database.estDatabase();
             String show ="";
             int i = 0;
-            ResultSet resultSet = sqlite.selectFromDatabase("select * from Appointments");
+            ResultSet resultSet = database.selectFromDatabase("select * from Appointments");
 
                 while (resultSet.next()){
 

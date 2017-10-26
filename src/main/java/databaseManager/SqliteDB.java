@@ -2,7 +2,7 @@ package databaseManager;
 
 import java.sql.*;
 
-public class sqliteDB implements databaseManager {
+public class SqliteDB implements DatabaseManager {
 
     Connection conn;
     Statement statement;

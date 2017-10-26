@@ -4,15 +4,14 @@ package controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import databaseManager.sqliteDB;
+import databaseManager.SqliteDB;
 
 
 import java.sql.*;
 
 public class EditController {
-    sqliteDB sqliteDB;
+    SqliteDB sqliteDB;
     @FXML
     private TextField editTitleField, editLocField;
     @FXML
@@ -39,7 +38,7 @@ public class EditController {
 
     @FXML
     private void initialize() {
-        sqliteDB = new sqliteDB();
+        sqliteDB = new SqliteDB();
         editHrDrop.setValue("1");
         editHrDrop.setItems(hrList);
         editMnDrop.setValue("00");
